@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -17,28 +19,28 @@ namespace AlgorithmForSpeeds
         {
             InitializeComponent();
         }
-        private Random rand = new Random(0);
-        int[] array = { 40, 10, 20, 30, 50 };
-        public int[]? NumArray { get; set; }
+        int pointCount = 5;
+        int _speedValue = 0;
+        int[] _arr;
 
-        public int[] SortArray()
+        private Random rand = new Random(0);
+        Stopwatch _stopWatch = new Stopwatch();
+        void sort(int[] arr)
         {
-            var arrayLength = NumArray.Length;
-            for (int i = 0; i < arrayLength - 1; i++)
+            chart1.Series.Clear();
+            int n = arr.Length;
+
+            for (int i = 0; i < n - 1; i++)
             {
-                var smallestVal = i;
-                for (int j = i + 1; j < arrayLength; j++)
-                {
-                    if (NumArray[j] < NumArray[smallestVal])
-                    {
-                        smallestVal = j;
-                    }
-                }
-                var tempVar = NumArray[smallestVal];
-                NumArray[smallestVal] = NumArray[i];
-                NumArray[i] = tempVar;
+                int min_idx = i;
+                for (int j = i + 1; j < n; j++)
+                    if (arr[j] < arr[min_idx])
+                        min_idx = j;
+
+                int temp = arr[min_idx];
+                arr[min_idx] = arr[i];
+                arr[i] = temp;
             }
-            return NumArray;
         }
 
         private double[] RandomWalk(int points = 5, double start = 100, double mult = 50)
@@ -52,33 +54,37 @@ namespace AlgorithmForSpeeds
         }
         private void btnBar_Click(object sender, EventArgs e)
         {
-            int pointCount = 5;
-            double[] ys1 = RandomWalk(pointCount);
-            double[] ys2 = RandomWalk(pointCount);
+            if (_arr == null)
+            {
+                MessageBox.Show("Algoritma Seçilmedi ", "Lütfen bir algoritma seçimi yapınız",MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                int n = _arr.Length;
+                chart1.Series.Clear();
+                for (int i = 0; i < n; ++i)
+                {
+                    Thread.Sleep(_speedValue * 100);
+                    ChartYazdir(i,_arr[i]);
+                    MessageBox.Show("Test");
+                }
 
-            // create a series for each line
-            Series series1 = new Series("Group A");
-            series1.Points.DataBindY(ys1);
+                chart1.Titles.Clear();
+                chart1.Titles.Add($"Dizideki toplam eleman sayisi ({pointCount} )");
+                chart1.ChartAreas[0].AxisX.Title = "Horizontal Axis Label";
+                chart1.ChartAreas[0].AxisY.Title = "Vertical Axis Label";
+                chart1.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.LightGray;
+                chart1.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.LightGray;
+            }
+
+        }
+        private void ChartYazdir(int indis,int values)
+        {
+            Series series1 = new Series("Number :" + values.ToString());
             series1.ChartType = SeriesChartType.Column;
-
-            Series series2 = new Series("Group B");
-            series2.Points.DataBindY(ys2);
-            series2.ChartType = SeriesChartType.Column;
-
-            // add each series to the chart
-            chart1.Series.Clear();
             chart1.Series.Add(series1);
-            chart1.Series.Add(series2);
-
-
-            // additional styling
-            chart1.ResetAutoValues();
-            chart1.Titles.Clear();
-            chart1.Titles.Add($"Column Chart ({pointCount} points per series)");
-            chart1.ChartAreas[0].AxisX.Title = "Horizontal Axis Label";
-            chart1.ChartAreas[0].AxisY.Title = "Vertical Axis Label";
-            chart1.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.LightGray;
-            chart1.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.LightGray;
+            chart1.Series["Number :" + values.ToString()].Points.AddXY(indis, values);
+            Thread.Sleep(_speedValue * 100);
         }
 
         private void btnScatter_Click(object sender, EventArgs e)
@@ -132,12 +138,9 @@ namespace AlgorithmForSpeeds
             series2.Points.DataBindY(ys2);
             series2.ChartType = SeriesChartType.FastLine;
 
-            // add each series to the chart
             chart1.Series.Clear();
             chart1.Series.Add(series1);
             chart1.Series.Add(series2);
-
-            // additional styling
             chart1.ResetAutoValues();
             chart1.Titles.Clear();
             chart1.Titles.Add($"Fast Line Plot ({pointCount:N0} points per series)");
@@ -145,6 +148,26 @@ namespace AlgorithmForSpeeds
             chart1.ChartAreas[0].AxisY.Title = "Vertical Axis Label";
             chart1.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.LightGray;
             chart1.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.LightGray;
+        }
+
+        void SelectionShort()
+        {
+            int[] arr = { 64, 25, 12, 22, 11 };
+            sort(arr);
+            _arr = arr;
+        }
+        private void cbxSelectionShort_CheckedChanged(object sender, EventArgs e)
+        {
+            SelectionShort();
+        }
+
+
+        private void cbxBubbleSort_CheckedChanged(object sender, EventArgs e)
+        {
+        }
+        private void tbSpeed_Scroll(object sender, EventArgs e)
+        {
+            _speedValue = tbSpeed.Value;
         }
     }
 }
