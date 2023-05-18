@@ -284,5 +284,19 @@ namespace AlgorithmForSpeeds
         {
             lblArrayInfo.Text = lblArrayInfo.Text.Substring(1) + lblArrayInfo.Text.Substring(0, 1);
         }
+
+        private void btnSend_Click(object sender, EventArgs e)
+        {
+
+            string customArray = tbxCustomArray.Text.Replace(",", "").ToString();
+            int custtomCount = tbxCustomArray.Text.Length;
+            int[] demmoArr = new int[custtomCount];
+            for (int i = 0; i < custtomCount - 2; i++)
+            {
+                demmoArr[i] = Convert.ToInt32(customArray[i].ToString());
+                MessageBox.Show(customArray[i].ToString());
+            }
+            _arr = demmoArr;
+        }
     }
 }
