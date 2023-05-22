@@ -61,6 +61,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tbxCustomArray = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.lblKarsilastirma = new System.Windows.Forms.Label();
+            this.lblKarsilastirmaSayisi = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbSpeed)).BeginInit();
             this.panel1.SuspendLayout();
@@ -76,23 +78,21 @@
             this.chart1.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(509, 137);
-            this.chart1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chart1.Location = new System.Drawing.Point(382, 111);
             this.chart1.Name = "chart1";
             series1.ChartArea = "ChartArea1";
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(547, 334);
+            this.chart1.Size = new System.Drawing.Size(410, 271);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
             // 
             // tbSpeed
             // 
-            this.tbSpeed.Location = new System.Drawing.Point(12, 133);
-            this.tbSpeed.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbSpeed.Location = new System.Drawing.Point(9, 108);
             this.tbSpeed.Name = "tbSpeed";
-            this.tbSpeed.Size = new System.Drawing.Size(489, 56);
+            this.tbSpeed.Size = new System.Drawing.Size(367, 45);
             this.tbSpeed.TabIndex = 1;
             this.tbSpeed.Scroll += new System.EventHandler(this.tbSpeed_Scroll);
             // 
@@ -104,55 +104,53 @@
             this.panel1.Controls.Add(this.rbInsertionSort);
             this.panel1.Controls.Add(this.rbBubbleSort);
             this.panel1.Controls.Add(this.rbSelectionSort);
-            this.panel1.Location = new System.Drawing.Point(9, 292);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Location = new System.Drawing.Point(7, 237);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(492, 178);
+            this.panel1.Size = new System.Drawing.Size(369, 145);
             this.panel1.TabIndex = 3;
             // 
             // rbQucikSort
             // 
             this.rbQucikSort.AutoSize = true;
-            this.rbQucikSort.Location = new System.Drawing.Point(23, 143);
-            this.rbQucikSort.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbQucikSort.Location = new System.Drawing.Point(17, 116);
             this.rbQucikSort.Name = "rbQucikSort";
-            this.rbQucikSort.Size = new System.Drawing.Size(89, 20);
+            this.rbQucikSort.Size = new System.Drawing.Size(75, 17);
             this.rbQucikSort.TabIndex = 9;
             this.rbQucikSort.TabStop = true;
             this.rbQucikSort.Text = "Quick Sort";
             this.rbQucikSort.UseVisualStyleBackColor = true;
+            this.rbQucikSort.CheckedChanged += new System.EventHandler(this.rbQucikSort_CheckedChanged);
             // 
             // rbMergeSort
             // 
             this.rbMergeSort.AutoSize = true;
-            this.rbMergeSort.Location = new System.Drawing.Point(23, 114);
-            this.rbMergeSort.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbMergeSort.Location = new System.Drawing.Point(17, 93);
             this.rbMergeSort.Name = "rbMergeSort";
-            this.rbMergeSort.Size = new System.Drawing.Size(94, 20);
+            this.rbMergeSort.Size = new System.Drawing.Size(77, 17);
             this.rbMergeSort.TabIndex = 8;
             this.rbMergeSort.TabStop = true;
             this.rbMergeSort.Text = "Merge Sort";
             this.rbMergeSort.UseVisualStyleBackColor = true;
+            this.rbMergeSort.CheckedChanged += new System.EventHandler(this.rbMergeSort_CheckedChanged);
             // 
             // rbInsertionSort
             // 
             this.rbInsertionSort.AutoSize = true;
-            this.rbInsertionSort.Location = new System.Drawing.Point(23, 82);
-            this.rbInsertionSort.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbInsertionSort.Location = new System.Drawing.Point(17, 67);
             this.rbInsertionSort.Name = "rbInsertionSort";
-            this.rbInsertionSort.Size = new System.Drawing.Size(105, 20);
+            this.rbInsertionSort.Size = new System.Drawing.Size(87, 17);
             this.rbInsertionSort.TabIndex = 7;
             this.rbInsertionSort.TabStop = true;
             this.rbInsertionSort.Text = "Insertion Sort";
             this.rbInsertionSort.UseVisualStyleBackColor = true;
+            this.rbInsertionSort.CheckedChanged += new System.EventHandler(this.rbInsertionSort_CheckedChanged);
             // 
             // rbBubbleSort
             // 
             this.rbBubbleSort.AutoSize = true;
-            this.rbBubbleSort.Location = new System.Drawing.Point(23, 50);
-            this.rbBubbleSort.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbBubbleSort.Location = new System.Drawing.Point(17, 41);
             this.rbBubbleSort.Name = "rbBubbleSort";
-            this.rbBubbleSort.Size = new System.Drawing.Size(98, 20);
+            this.rbBubbleSort.Size = new System.Drawing.Size(80, 17);
             this.rbBubbleSort.TabIndex = 6;
             this.rbBubbleSort.TabStop = true;
             this.rbBubbleSort.Text = "Bubble Sort";
@@ -162,10 +160,9 @@
             // rbSelectionSort
             // 
             this.rbSelectionSort.AutoSize = true;
-            this.rbSelectionSort.Location = new System.Drawing.Point(23, 18);
-            this.rbSelectionSort.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbSelectionSort.Location = new System.Drawing.Point(17, 15);
             this.rbSelectionSort.Name = "rbSelectionSort";
-            this.rbSelectionSort.Size = new System.Drawing.Size(118, 20);
+            this.rbSelectionSort.Size = new System.Drawing.Size(97, 17);
             this.rbSelectionSort.TabIndex = 5;
             this.rbSelectionSort.TabStop = true;
             this.rbSelectionSort.Text = "Selection Short";
@@ -174,10 +171,9 @@
             // 
             // btnBar
             // 
-            this.btnBar.Location = new System.Drawing.Point(509, 84);
-            this.btnBar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBar.Location = new System.Drawing.Point(382, 68);
             this.btnBar.Name = "btnBar";
-            this.btnBar.Size = new System.Drawing.Size(100, 46);
+            this.btnBar.Size = new System.Drawing.Size(75, 37);
             this.btnBar.TabIndex = 4;
             this.btnBar.Text = "Bar";
             this.btnBar.UseVisualStyleBackColor = true;
@@ -185,10 +181,9 @@
             // 
             // btnScatter
             // 
-            this.btnScatter.Location = new System.Drawing.Point(733, 84);
-            this.btnScatter.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnScatter.Location = new System.Drawing.Point(550, 68);
             this.btnScatter.Name = "btnScatter";
-            this.btnScatter.Size = new System.Drawing.Size(100, 46);
+            this.btnScatter.Size = new System.Drawing.Size(75, 37);
             this.btnScatter.TabIndex = 5;
             this.btnScatter.Text = "Scatter";
             this.btnScatter.UseVisualStyleBackColor = true;
@@ -196,10 +191,9 @@
             // 
             // btnStem
             // 
-            this.btnStem.Location = new System.Drawing.Point(956, 84);
-            this.btnStem.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnStem.Location = new System.Drawing.Point(717, 68);
             this.btnStem.Name = "btnStem";
-            this.btnStem.Size = new System.Drawing.Size(100, 46);
+            this.btnStem.Size = new System.Drawing.Size(75, 37);
             this.btnStem.TabIndex = 6;
             this.btnStem.Text = "Stem";
             this.btnStem.UseVisualStyleBackColor = true;
@@ -209,10 +203,9 @@
             // 
             this.lblExpiresTime.AutoSize = true;
             this.lblExpiresTime.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblExpiresTime.Location = new System.Drawing.Point(4, 36);
-            this.lblExpiresTime.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblExpiresTime.Location = new System.Drawing.Point(3, 29);
             this.lblExpiresTime.Name = "lblExpiresTime";
-            this.lblExpiresTime.Size = new System.Drawing.Size(158, 28);
+            this.lblExpiresTime.Size = new System.Drawing.Size(128, 23);
             this.lblExpiresTime.TabIndex = 7;
             this.lblExpiresTime.Text = "Geçen Süre : ";
             // 
@@ -221,10 +214,9 @@
             this.lblTime.AutoSize = true;
             this.lblTime.BackColor = System.Drawing.Color.Red;
             this.lblTime.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTime.Location = new System.Drawing.Point(183, 36);
-            this.lblTime.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTime.Location = new System.Drawing.Point(137, 29);
             this.lblTime.Name = "lblTime";
-            this.lblTime.Size = new System.Drawing.Size(38, 28);
+            this.lblTime.Size = new System.Drawing.Size(32, 23);
             this.lblTime.TabIndex = 8;
             this.lblTime.Text = "00";
             // 
@@ -232,20 +224,18 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Arial Black", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(168, 95);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(126, 77);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(136, 36);
+            this.label2.Size = new System.Drawing.Size(111, 28);
             this.label2.TabIndex = 10;
             this.label2.Text = "Hız Ayarı";
             // 
             // btnDevam
             // 
             this.btnDevam.Enabled = false;
-            this.btnDevam.Location = new System.Drawing.Point(49, 197);
-            this.btnDevam.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnDevam.Location = new System.Drawing.Point(37, 160);
             this.btnDevam.Name = "btnDevam";
-            this.btnDevam.Size = new System.Drawing.Size(452, 33);
+            this.btnDevam.Size = new System.Drawing.Size(339, 27);
             this.btnDevam.TabIndex = 11;
             this.btnDevam.Text = "Devam Et";
             this.btnDevam.UseVisualStyleBackColor = true;
@@ -260,18 +250,16 @@
             this.panel2.Controls.Add(this.lblExpiresTime);
             this.panel2.Controls.Add(this.lblTime);
             this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1067, 76);
+            this.panel2.Size = new System.Drawing.Size(800, 62);
             this.panel2.TabIndex = 17;
             // 
             // btnClose
             // 
             this.btnClose.Font = new System.Drawing.Font("Arial Black", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.Location = new System.Drawing.Point(1013, 4);
-            this.btnClose.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnClose.Location = new System.Drawing.Point(760, 4);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(49, 28);
+            this.btnClose.Size = new System.Drawing.Size(37, 23);
             this.btnClose.TabIndex = 12;
             this.btnClose.Text = "X";
             this.btnClose.UseVisualStyleBackColor = true;
@@ -279,10 +267,9 @@
             // btnScreen
             // 
             this.btnScreen.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnScreen.Location = new System.Drawing.Point(956, 4);
-            this.btnScreen.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnScreen.Location = new System.Drawing.Point(721, 4);
             this.btnScreen.Name = "btnScreen";
-            this.btnScreen.Size = new System.Drawing.Size(49, 28);
+            this.btnScreen.Size = new System.Drawing.Size(37, 23);
             this.btnScreen.TabIndex = 11;
             this.btnScreen.Text = "[ ]";
             this.btnScreen.UseVisualStyleBackColor = true;
@@ -290,20 +277,18 @@
             // btnHide
             // 
             this.btnHide.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnHide.Location = new System.Drawing.Point(899, 5);
-            this.btnHide.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnHide.Location = new System.Drawing.Point(678, 3);
             this.btnHide.Name = "btnHide";
-            this.btnHide.Size = new System.Drawing.Size(49, 28);
+            this.btnHide.Size = new System.Drawing.Size(37, 23);
             this.btnHide.TabIndex = 10;
             this.btnHide.Text = "__";
             this.btnHide.UseVisualStyleBackColor = true;
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(49, 251);
-            this.btnClear.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnClear.Location = new System.Drawing.Point(37, 204);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(452, 33);
+            this.btnClear.Size = new System.Drawing.Size(339, 27);
             this.btnClear.TabIndex = 19;
             this.btnClear.Text = "Sıfrıla";
             this.btnClear.UseVisualStyleBackColor = true;
@@ -312,10 +297,9 @@
             // pictureBox2
             // 
             this.pictureBox2.Image = global::AlgorithmForSpeeds.Properties.Resources.resf;
-            this.pictureBox2.Location = new System.Drawing.Point(9, 251);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox2.Location = new System.Drawing.Point(7, 204);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(32, 33);
+            this.pictureBox2.Size = new System.Drawing.Size(24, 27);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 20;
             this.pictureBox2.TabStop = false;
@@ -323,10 +307,9 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::AlgorithmForSpeeds.Properties.Resources.play;
-            this.pictureBox1.Location = new System.Drawing.Point(9, 197);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox1.Location = new System.Drawing.Point(7, 160);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(32, 33);
+            this.pictureBox1.Size = new System.Drawing.Size(24, 27);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 13;
             this.pictureBox1.TabStop = false;
@@ -334,14 +317,15 @@
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.panel4.Controls.Add(this.lblKarsilastirma);
+            this.panel4.Controls.Add(this.lblKarsilastirmaSayisi);
             this.panel4.Controls.Add(this.lblArrayInfo);
             this.panel4.Controls.Add(this.btnSend);
             this.panel4.Controls.Add(this.label1);
             this.panel4.Controls.Add(this.tbxCustomArray);
-            this.panel4.Location = new System.Drawing.Point(0, 478);
-            this.panel4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel4.Location = new System.Drawing.Point(0, 388);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1067, 76);
+            this.panel4.Size = new System.Drawing.Size(800, 62);
             this.panel4.TabIndex = 19;
             // 
             // lblArrayInfo
@@ -349,19 +333,17 @@
             this.lblArrayInfo.AutoSize = true;
             this.lblArrayInfo.BackColor = System.Drawing.Color.Red;
             this.lblArrayInfo.Font = new System.Drawing.Font("Segoe Script", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblArrayInfo.Location = new System.Drawing.Point(209, 7);
-            this.lblArrayInfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblArrayInfo.Location = new System.Drawing.Point(157, 6);
             this.lblArrayInfo.Name = "lblArrayInfo";
-            this.lblArrayInfo.Size = new System.Drawing.Size(555, 28);
+            this.lblArrayInfo.Size = new System.Drawing.Size(423, 20);
             this.lblArrayInfo.TabIndex = 3;
             this.lblArrayInfo.Text = "Lütfen aralarına virgül koyarak giriniz örnek : [1,2,3,4,5]";
             // 
             // btnSend
             // 
-            this.btnSend.Location = new System.Drawing.Point(476, 42);
-            this.btnSend.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSend.Location = new System.Drawing.Point(357, 34);
             this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(100, 25);
+            this.btnSend.Size = new System.Drawing.Size(75, 20);
             this.btnSend.TabIndex = 2;
             this.btnSend.Text = "Set Array";
             this.btnSend.UseVisualStyleBackColor = true;
@@ -371,19 +353,17 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe Script", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(5, 31);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(4, 25);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(204, 41);
+            this.label1.Size = new System.Drawing.Size(164, 33);
             this.label1.TabIndex = 1;
             this.label1.Text = "Custom Array";
             // 
             // tbxCustomArray
             // 
-            this.tbxCustomArray.Location = new System.Drawing.Point(232, 42);
-            this.tbxCustomArray.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbxCustomArray.Location = new System.Drawing.Point(174, 34);
             this.tbxCustomArray.Name = "tbxCustomArray";
-            this.tbxCustomArray.Size = new System.Drawing.Size(235, 22);
+            this.tbxCustomArray.Size = new System.Drawing.Size(177, 20);
             this.tbxCustomArray.TabIndex = 0;
             // 
             // timer1
@@ -391,11 +371,32 @@
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // lblKarsilastirma
+            // 
+            this.lblKarsilastirma.AutoSize = true;
+            this.lblKarsilastirma.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblKarsilastirma.Location = new System.Drawing.Point(546, 30);
+            this.lblKarsilastirma.Name = "lblKarsilastirma";
+            this.lblKarsilastirma.Size = new System.Drawing.Size(202, 23);
+            this.lblKarsilastirma.TabIndex = 13;
+            this.lblKarsilastirma.Text = "Karsilastirma Sayisi : ";
+            // 
+            // lblKarsilastirmaSayisi
+            // 
+            this.lblKarsilastirmaSayisi.AutoSize = true;
+            this.lblKarsilastirmaSayisi.BackColor = System.Drawing.Color.Red;
+            this.lblKarsilastirmaSayisi.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblKarsilastirmaSayisi.Location = new System.Drawing.Point(760, 30);
+            this.lblKarsilastirmaSayisi.Name = "lblKarsilastirmaSayisi";
+            this.lblKarsilastirmaSayisi.Size = new System.Drawing.Size(32, 23);
+            this.lblKarsilastirmaSayisi.TabIndex = 14;
+            this.lblKarsilastirmaSayisi.Text = "00";
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1067, 554);
+            this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.panel4);
@@ -411,7 +412,6 @@
             this.Controls.Add(this.chart1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
@@ -461,6 +461,8 @@
         private System.Windows.Forms.TextBox tbxCustomArray;
         private System.Windows.Forms.Label lblArrayInfo;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label lblKarsilastirma;
+        private System.Windows.Forms.Label lblKarsilastirmaSayisi;
     }
 }
 

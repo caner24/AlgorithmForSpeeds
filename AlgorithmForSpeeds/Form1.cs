@@ -22,13 +22,17 @@ namespace AlgorithmForSpeeds
         int pointCount = 5;
         int _speedValue = 0;
         int[] _arr;
+        int[] arr;
         int arrayNumber = 0;
         string _type;
+        int karsilastirmaSayisi;
 
         private Random rand = new Random(0);
         Stopwatch _stopWatch = new Stopwatch();
+        Stopwatch _algorithmSpeed = new Stopwatch();
         void sort(int[] arr)
         {
+            _algorithmSpeed.Start();
             chart1.Series.Clear();
             int n = arr.Length;
             for (int i = 0; i < n - 1; i++)
@@ -37,21 +41,106 @@ namespace AlgorithmForSpeeds
                 for (int j = i + 1; j < n; j++)
                     if (arr[j] < arr[min_idx])
                         min_idx = j;
-
+                Console.WriteLine(_algorithmSpeed.Elapsed.ToString());
+                lblTime.Text = _algorithmSpeed.Elapsed.ToString();
                 int temp = arr[min_idx];
                 arr[min_idx] = arr[i];
                 arr[i] = temp;
             }
         }
-        private double[] RandomWalk(int points = 5, double start = 100, double mult = 50)
+        void InsertionSort()
         {
-            // return an array of difting random numbers
-            double[] values = new double[points];
-            values[0] = start;
-            for (int i = 1; i < points; i++)
-                values[i] = values[i - 1] + (rand.NextDouble() - .5) * mult;
-            return values;
+            if (_arr == null)
+            {
+                arr = new int[] { 64, 25, 12, 22, 11 };
+            }
+            else
+            {
+                arr = _arr;
+            }
+            _algorithmSpeed.Start();
+            for (int i = 0; i < arr.Length - 1; i++)
+            {
+                for (int j = i + 1; j > 0; j--)
+                {
+                    if (arr[j - 1] > arr[j])
+                    {
+                        int temp = arr[j - 1];
+                        arr[j - 1] = arr[j];
+                        arr[j] = temp;
+                    }
+                    Console.WriteLine(_algorithmSpeed.Elapsed.ToString());
+                    lblTime.Text = _algorithmSpeed.Elapsed.ToString();
+                }
+            }
+            _arr = arr;
         }
+
+        void merge(int[] arr, int l, int m, int r)
+        {
+
+            int n1 = m - l + 1;
+            int n2 = r - m;
+
+
+            int[] L = new int[n1];
+            int[] R = new int[n2];
+            int i, j;
+
+            for (i = 0; i < n1; ++i)
+                L[i] = arr[l + i];
+            for (j = 0; j < n2; ++j)
+                R[j] = arr[m + 1 + j];
+
+
+            i = 0;
+            j = 0;
+
+
+            int k = l;
+            while (i < n1 && j < n2)
+            {
+                if (L[i] <= R[j])
+                {
+                    arr[k] = L[i];
+                    i++;
+                }
+                else
+                {
+                    arr[k] = R[j];
+                    j++;
+                }
+                k++;
+            }
+            while (i < n1)
+            {
+                arr[k] = L[i];
+                i++;
+                k++;
+            }
+            while (j < n2)
+            {
+                arr[k] = R[j];
+                j++;
+                k++;
+            }
+        }
+
+        void mergeSort(int[] arr, int l, int r)
+        {
+            _algorithmSpeed.Start();
+            if (l < r)
+            {
+                int m = l + (r - l) / 2;
+                mergeSort(arr, l, m);
+                mergeSort(arr, m + 1, r);
+                merge(arr, l, m, r);
+            }
+            _arr = arr;
+            Console.WriteLine(_algorithmSpeed.Elapsed.ToString());
+            lblTime.Text = _algorithmSpeed.Elapsed.ToString();
+        }
+
         private void btnBar_Click(object sender, EventArgs e)
         {
             if (_arr == null)
@@ -61,11 +150,11 @@ namespace AlgorithmForSpeeds
             else
             {
                 _type = "Bar";
-                ChartGetir();
+                ChartGetirBar();
             }
 
         }
-        private void ChartGetir(int numbers = 0)
+        private void ChartGetirBar(int numbers = 0)
         {
             btnDevam.Enabled = false;
             _stopWatch.Start();
@@ -83,7 +172,7 @@ namespace AlgorithmForSpeeds
                 Thread.Sleep(_speedValue * 100);
                 ChartYazdir(i, _arr[i]);
                 _stopWatch.Stop();
-                DialogResult results = MessageBox.Show("Geçen Süre : " + _stopWatch.ElapsedMilliseconds.ToString(), "Durdurmak için (yes) basın", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                DialogResult results = MessageBox.Show("Geçen Süre : " + _stopWatch.Elapsed.ToString(), "Durdurmak için (yes) basın", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                 if (results == DialogResult.Yes)
                 {
                     _stopWatch.Stop();
@@ -99,9 +188,9 @@ namespace AlgorithmForSpeeds
                     break;
                 }
 
-                lblTime.Text = _stopWatch.ElapsedMilliseconds.ToString() + " ms ";
+                lblTime.Text = _algorithmSpeed.Elapsed.ToString();
                 chart1.Titles.Clear();
-                chart1.Titles.Add($"Dizideki toplam eleman sayisi ({pointCount} )");
+                chart1.Titles.Add($"Column Chart ({pointCount} points per series)");
                 chart1.ChartAreas[0].AxisX.Title = "Horizontal Axis Label";
                 chart1.ChartAreas[0].AxisY.Title = "Vertical Axis Label";
                 chart1.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.LightGray;
@@ -118,11 +207,20 @@ namespace AlgorithmForSpeeds
         }
         private void ChartYazdirScatter(int indis, int values)
         {
+
             Series series1 = new Series("Number :" + values.ToString());
             series1.ChartType = SeriesChartType.Line;
             series1.MarkerStyle = MarkerStyle.Circle;
             chart1.Series.Add(series1);
             chart1.Series["Number :" + values.ToString()].Points.AddXY(indis, values);
+            Thread.Sleep(_speedValue * 100);
+        }
+        private void ChartYazdirStem(int values)
+        {
+            Series series1 = new Series("Number :" + values.ToString());
+            series1.ChartType = SeriesChartType.FastLine;
+            chart1.Series.Add(series1);
+            chart1.Series["Number :" + values.ToString()].Points.AddY(values);
             Thread.Sleep(_speedValue * 100);
         }
         private void ChartGetirScatter(int numbers = 0)
@@ -143,7 +241,7 @@ namespace AlgorithmForSpeeds
                 Thread.Sleep(_speedValue * 100);
                 ChartYazdirScatter(i, _arr[i]);
                 _stopWatch.Stop();
-                DialogResult results = MessageBox.Show("Geçen Süre : " + _stopWatch.ElapsedMilliseconds.ToString(), "Durdurmak için (yes) basın", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                DialogResult results = MessageBox.Show("Geçen Süre : " + _stopWatch.Elapsed.ToString(), "Durdurmak için (yes) basın", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                 if (results == DialogResult.Yes)
                 {
                     _stopWatch.Stop();
@@ -184,41 +282,89 @@ namespace AlgorithmForSpeeds
 
         private void btnStem_Click(object sender, EventArgs e)
         {
-            // generate some random Y data
-            int pointCount = 100_000;
-            double[] ys1 = RandomWalk(pointCount);
-            double[] ys2 = RandomWalk(pointCount);
+            if (_arr == null)
+            {
+                MessageBox.Show("Algoritma Seçilmedi ", "Lütfen bir algoritma seçimi yapınız", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                _type = "Stem";
+                ChartGetirStem();
+            }
+        }
 
-            // create a series for each line
-            Series series1 = new Series("Group A");
-            series1.Points.DataBindY(ys1);
-            series1.ChartType = SeriesChartType.FastLine;
+        private void ChartGetirStem(int numbers = 0)
+        {
+            btnDevam.Enabled = false;
+            _stopWatch.Start();
+            int n = _arr.Length;
+            if (numbers == 0)
+            {
+                chart1.Series.Clear();
+            }
 
-            Series series2 = new Series("Group B");
-            series2.Points.DataBindY(ys2);
-            series2.ChartType = SeriesChartType.FastLine;
+            for (int i = numbers; i < n; ++i)
+            {
+                if (i != 0)
+                    _stopWatch.Start();
 
-            chart1.Series.Clear();
-            chart1.Series.Add(series1);
-            chart1.Series.Add(series2);
-            chart1.ResetAutoValues();
-            chart1.Titles.Clear();
-            chart1.Titles.Add($"Fast Line Plot ({pointCount:N0} points per series)");
-            chart1.ChartAreas[0].AxisX.Title = "Horizontal Axis Label";
-            chart1.ChartAreas[0].AxisY.Title = "Vertical Axis Label";
-            chart1.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.LightGray;
-            chart1.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.LightGray;
+                Thread.Sleep(_speedValue * 100);
+                ChartYazdirStem(_arr[i]);
+                _stopWatch.Stop();
+                DialogResult results = MessageBox.Show("Geçen Süre : " + _stopWatch.Elapsed.ToString(), "Durdurmak için (yes) basın", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if (results == DialogResult.Yes)
+                {
+                    _stopWatch.Stop();
+                    btnDevam.Enabled = true;
+                    btnBar.Enabled = false;
+                    btnScatter.Enabled = false;
+                    btnStem.Enabled = false;
+                    arrayNumber = i + 1;
+                    if (i == n - 1)
+                    {
+                        arrayNumber = 0;
+                    }
+                    break;
+                }
+
+                lblTime.Text = _stopWatch.Elapsed.ToString() + " ms ";
+                chart1.ResetAutoValues();
+                chart1.Titles.Clear();
+                chart1.Titles.Add($"Fast Line Plot ({pointCount:N0} points per series)");
+                chart1.ChartAreas[0].AxisX.Title = "Horizontal Axis Label";
+                chart1.ChartAreas[0].AxisY.Title = "Vertical Axis Label";
+                chart1.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.LightGray;
+                chart1.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.LightGray;
+            }
+
         }
 
         void SelectionShort()
         {
-            int[] arr = { 64, 25, 12, 22, 11 };
+
+            if (_arr == null)
+            {
+                arr = new int[] { 64, 25, 12, 22, 11 };
+            }
+            else
+            {
+                arr = _arr;
+            }
             sort(arr);
             _arr = arr;
         }
         void BubbleSort()
         {
-            int[] arr = { 78, 55, 45, 98, 13 };
+            _algorithmSpeed.Start();
+
+            if (_arr == null)
+            {
+                arr = new int[] { 64, 25, 12, 22, 11 };
+            }
+            else
+            {
+                arr = _arr;
+            }
             int temp;
             for (int j = 0; j <= arr.Length - 2; j++)
             {
@@ -230,6 +376,7 @@ namespace AlgorithmForSpeeds
                         arr[i + 1] = arr[i];
                         arr[i] = temp;
                     }
+                    Console.WriteLine(_algorithmSpeed.Elapsed.ToString());
                 }
             }
             _arr = arr;
@@ -250,13 +397,14 @@ namespace AlgorithmForSpeeds
                 ChartGetirScatter(arrayNumber);
             }
             if (_type == "Bar")
-                ChartGetir(arrayNumber);
+                ChartGetirBar(arrayNumber);
 
         }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
             _stopWatch.Reset();
+            _arr = null;
             btnBar.Enabled = true;
             btnScatter.Enabled = true;
             btnStem.Enabled = true;
@@ -267,11 +415,13 @@ namespace AlgorithmForSpeeds
 
         private void rbSelectionSort_CheckedChanged(object sender, EventArgs e)
         {
+            _algorithmSpeed.Reset();
             SelectionShort();
         }
 
         private void rbBubbleSort_CheckedChanged(object sender, EventArgs e)
         {
+            _algorithmSpeed.Reset();
             BubbleSort();
         }
 
@@ -289,14 +439,105 @@ namespace AlgorithmForSpeeds
         {
 
             string customArray = tbxCustomArray.Text.Replace(",", "").ToString();
-            int custtomCount = tbxCustomArray.Text.Length;
+            int custtomCount = customArray.Length;
             int[] demmoArr = new int[custtomCount];
-            for (int i = 0; i < custtomCount - 2; i++)
+            for (int i = 0; i < custtomCount; i++)
             {
                 demmoArr[i] = Convert.ToInt32(customArray[i].ToString());
                 MessageBox.Show(customArray[i].ToString());
             }
             _arr = demmoArr;
+        }
+        private void rbInsertionSort_CheckedChanged(object sender, EventArgs e)
+        {
+            _algorithmSpeed.Reset();
+            InsertionSort();
+        }
+
+        private void rbMergeSort_CheckedChanged(object sender, EventArgs e)
+        {
+            _algorithmSpeed.Reset();
+            if (_arr == null)
+            {
+                arr = new int[] { 64, 25, 12, 22, 11 };
+            }
+            else
+            {
+                arr = _arr;
+
+            }
+            mergeSort(arr, 0, arr.Length - 1);
+        }
+
+
+         void Quick_Sort(int[] arr, int left, int right)
+        {
+            _algorithmSpeed.Start();
+            if (left < right)
+            {
+                int pivot = Partition(arr, left, right);
+
+                if (pivot > 1)
+                {
+                    Quick_Sort(arr, left, pivot - 1);
+                }
+                if (pivot + 1 < right)
+                {
+                    Quick_Sort(arr, pivot + 1, right);
+                }
+            }
+            _arr = arr;
+            Console.WriteLine(_algorithmSpeed.Elapsed.ToString());
+            lblTime.Text = _algorithmSpeed.Elapsed.ToString();
+
+        }
+
+       int Partition(int[] arr, int left, int right)
+        {
+            int pivot = arr[left];
+            while (true)
+            {
+
+                while (arr[left] < pivot)
+                {
+                    left++;
+                }
+
+                while (arr[right] > pivot)
+                {
+                    right--;
+                }
+
+                if (left < right)
+                {
+                    if (arr[left] == arr[right]) return right;
+
+                    int temp = arr[left];
+                    arr[left] = arr[right];
+                    arr[right] = temp;
+
+
+                }
+                else
+                {
+                    return right;
+                }
+            }
+        }
+
+        private void rbQucikSort_CheckedChanged(object sender, EventArgs e)
+        {
+            _algorithmSpeed.Reset();
+            if (_arr == null)
+            {
+                arr = new int[] { 64, 25, 12, 22, 11 };
+            }
+            else
+            {
+                arr = _arr;
+
+            }
+            Quick_Sort(arr, 0, arr.Length - 1);
         }
     }
 }
