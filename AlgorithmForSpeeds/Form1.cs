@@ -274,7 +274,7 @@ namespace AlgorithmForSpeeds
                     break;
                 }
 
-                lblTime.Text = _stopWatch.ElapsedMilliseconds.ToString() + " ms ";
+                lblTime.Text = _stopWatch.Elapsed.ToString() + " ms ";
                 chart1.ResetAutoValues();
                 chart1.Titles.Clear();
                 chart1.Titles.Add($"Fast Line Plot ({pointCount:N0} points per series)");
@@ -422,6 +422,11 @@ namespace AlgorithmForSpeeds
 
         private void btnClear_Click(object sender, EventArgs e)
         {
+            lblTime.Text = "";
+            lblBest.Text = "";
+            lblAverage.Text = "";
+            lblWorst.Text = "";
+            lblWorst2.Text = "";
             tbSpeed.Value = 0;
             _stopWatch.Reset();
             _arr = new int[] { 64, 25, 12, 22, 11, 8 };
@@ -453,6 +458,12 @@ namespace AlgorithmForSpeeds
             btnStem.Enabled = true;
             chart1.Series.Clear();
             chart1.Titles.Clear();
+
+            lblTime.Text = "";
+            lblBest.Text = "";
+            lblAverage.Text = "";
+            lblWorst.Text = "";
+            lblWorst2.Text = "";
 
         }
 
