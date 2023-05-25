@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -26,6 +27,7 @@ namespace AlgorithmForSpeeds
         int arrayNumber = 0;
         string _type;
         int karsilastirmaSayisi;
+        ArrayList _stemArr = new ArrayList();
 
         private Random rand = new Random(0);
         Stopwatch _stopWatch = new Stopwatch();
@@ -40,9 +42,14 @@ namespace AlgorithmForSpeeds
                 int min_idx = i;
                 for (int j = i + 1; j < n; j++)
                     if (arr[j] < arr[min_idx])
+                    {
                         min_idx = j;
+                        karsilastirmaSayisi++;
+                    }
+
                 Console.WriteLine(_algorithmSpeed.Elapsed.ToString());
                 lblTime.Text = _algorithmSpeed.Elapsed.ToString();
+                lblKarsilastirmaSayisi.Text = karsilastirmaSayisi.ToString();
                 int temp = arr[min_idx];
                 arr[min_idx] = arr[i];
                 arr[i] = temp;
@@ -50,9 +57,9 @@ namespace AlgorithmForSpeeds
         }
         void InsertionSort()
         {
-            if (_arr == null)
+            if (_arr == null || _arr.Length == 0)
             {
-                arr = new int[] { 64, 25, 12, 22, 11 };
+                arr = new int[] { 64, 25, 12, 22, 11, 8 };
             }
             else
             {
@@ -68,12 +75,14 @@ namespace AlgorithmForSpeeds
                         int temp = arr[j - 1];
                         arr[j - 1] = arr[j];
                         arr[j] = temp;
+                        karsilastirmaSayisi++;
                     }
                     Console.WriteLine(_algorithmSpeed.Elapsed.ToString());
                     lblTime.Text = _algorithmSpeed.Elapsed.ToString();
                 }
             }
             _arr = arr;
+            lblKarsilastirmaSayisi.Text = karsilastirmaSayisi.ToString();
         }
 
         void merge(int[] arr, int l, int m, int r)
@@ -104,11 +113,13 @@ namespace AlgorithmForSpeeds
                 {
                     arr[k] = L[i];
                     i++;
+                    karsilastirmaSayisi++;
                 }
                 else
                 {
                     arr[k] = R[j];
                     j++;
+                    karsilastirmaSayisi++;
                 }
                 k++;
             }
@@ -139,6 +150,7 @@ namespace AlgorithmForSpeeds
             _arr = arr;
             Console.WriteLine(_algorithmSpeed.Elapsed.ToString());
             lblTime.Text = _algorithmSpeed.Elapsed.ToString();
+            lblKarsilastirmaSayisi.Text = karsilastirmaSayisi.ToString();
         }
 
         private void btnBar_Click(object sender, EventArgs e)
@@ -217,10 +229,15 @@ namespace AlgorithmForSpeeds
         }
         private void ChartYazdirStem(int values)
         {
+            if (_stemArr.Count == 2)
+            {
+                _stemArr.Clear();
+            }
+            _stemArr.Add(values);
             Series series1 = new Series("Number :" + values.ToString());
+            series1.Points.DataBindY(_stemArr);
             series1.ChartType = SeriesChartType.FastLine;
             chart1.Series.Add(series1);
-            chart1.Series["Number :" + values.ToString()].Points.AddY(values);
             Thread.Sleep(_speedValue * 100);
         }
         private void ChartGetirScatter(int numbers = 0)
@@ -260,7 +277,7 @@ namespace AlgorithmForSpeeds
                 lblTime.Text = _stopWatch.ElapsedMilliseconds.ToString() + " ms ";
                 chart1.ResetAutoValues();
                 chart1.Titles.Clear();
-                chart1.Titles.Add($"Scatter Plot ({pointCount:N0} points per series)");
+                chart1.Titles.Add($"Fast Line Plot ({pointCount:N0} points per series)");
                 chart1.ChartAreas[0].AxisX.Title = "Horizontal Axis Label";
                 chart1.ChartAreas[0].AxisY.Title = "Vertical Axis Label";
                 chart1.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.LightGray;
@@ -279,7 +296,6 @@ namespace AlgorithmForSpeeds
                 ChartGetirScatter();
             }
         }
-
         private void btnStem_Click(object sender, EventArgs e)
         {
             if (_arr == null)
@@ -291,6 +307,7 @@ namespace AlgorithmForSpeeds
                 _type = "Stem";
                 ChartGetirStem();
             }
+
         }
 
         private void ChartGetirStem(int numbers = 0)
@@ -342,9 +359,9 @@ namespace AlgorithmForSpeeds
         void SelectionShort()
         {
 
-            if (_arr == null)
+            if (_arr == null || _arr.Length == 0)
             {
-                arr = new int[] { 64, 25, 12, 22, 11 };
+                arr = new int[] { 64, 25, 12, 22, 11, 8 };
             }
             else
             {
@@ -357,9 +374,9 @@ namespace AlgorithmForSpeeds
         {
             _algorithmSpeed.Start();
 
-            if (_arr == null)
+            if (_arr == null || _arr.Length == 0)
             {
-                arr = new int[] { 64, 25, 12, 22, 11 };
+                arr = new int[] { 64, 25, 12, 22, 11, 8 };
             }
             else
             {
@@ -372,6 +389,7 @@ namespace AlgorithmForSpeeds
                 {
                     if (arr[i] > arr[i + 1])
                     {
+                        karsilastirmaSayisi++;
                         temp = arr[i + 1];
                         arr[i + 1] = arr[i];
                         arr[i] = temp;
@@ -384,6 +402,7 @@ namespace AlgorithmForSpeeds
             foreach (int p in arr)
                 Console.Write(p + " ");
             Console.Read();
+            lblKarsilastirmaSayisi.Text = karsilastirmaSayisi.ToString();
         }
         private void tbSpeed_Scroll(object sender, EventArgs e)
         {
@@ -393,18 +412,42 @@ namespace AlgorithmForSpeeds
         private void btnDevam_Click(object sender, EventArgs e)
         {
             if (_type == "Scatter")
-            {
                 ChartGetirScatter(arrayNumber);
-            }
             if (_type == "Bar")
                 ChartGetirBar(arrayNumber);
+            if (_type == "Stem")
+                ChartGetirStem(arrayNumber);
 
         }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
+            tbSpeed.Value = 0;
             _stopWatch.Reset();
-            _arr = null;
+            _arr = new int[] { 64, 25, 12, 22, 11, 8 };
+            lblKarsilastirmaSayisi.Text = "0";
+            karsilastirmaSayisi = 0;
+            rbSelectionSort.Checked = false;
+            rbBubbleSort.Checked = false;
+            rbMergeSort.Checked = false;
+            rbQucikSort.Checked = false;
+            rbInsertionSort.Checked = false;
+            btnBar.Enabled = true;
+            btnScatter.Enabled = true;
+            btnStem.Enabled = true;
+            chart1.Series.Clear();
+            chart1.Titles.Clear();
+
+            tbSpeed.Value = 0;
+            _stopWatch.Reset();
+            _arr = new int[] { 64, 25, 12, 22, 11, 8 };
+            lblKarsilastirmaSayisi.Text = "0";
+            karsilastirmaSayisi = 0;
+            rbSelectionSort.Checked = false;
+            rbBubbleSort.Checked = false;
+            rbMergeSort.Checked = false;
+            rbQucikSort.Checked = false;
+            rbInsertionSort.Checked = false;
             btnBar.Enabled = true;
             btnScatter.Enabled = true;
             btnStem.Enabled = true;
@@ -415,12 +458,22 @@ namespace AlgorithmForSpeeds
 
         private void rbSelectionSort_CheckedChanged(object sender, EventArgs e)
         {
+            lblBest.Text = "Ω(n^2)";
+            lblAverage.Text = "θ(n^2)";
+            lblWorst.Text = "O(n^2)";
+            lblWorst2.Text = "O(1)";
+            karsilastirmaSayisi = 0;
             _algorithmSpeed.Reset();
             SelectionShort();
         }
 
         private void rbBubbleSort_CheckedChanged(object sender, EventArgs e)
         {
+            lblBest.Text = "Ω(n)";
+            lblAverage.Text = "θ(n^2)";
+            lblWorst.Text = "O(n^2)";
+            lblWorst2.Text = "O(1)";
+            karsilastirmaSayisi = 0;
             _algorithmSpeed.Reset();
             BubbleSort();
         }
@@ -437,29 +490,52 @@ namespace AlgorithmForSpeeds
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-
-            string customArray = tbxCustomArray.Text.Replace(",", "").ToString();
-            int custtomCount = customArray.Length;
-            int[] demmoArr = new int[custtomCount];
-            for (int i = 0; i < custtomCount; i++)
+            List<int> demoArr = new List<int>();
+            string myArrays = tbxCustomArray.Text;
+            int indis = 0;
+            do
             {
-                demmoArr[i] = Convert.ToInt32(customArray[i].ToString());
-                MessageBox.Show(customArray[i].ToString());
+
+                indis = myArrays.IndexOf(",");
+                if (indis==-1)
+                {
+                    break;
+                }
+                string gelenSayi = myArrays.Substring(0, indis + 1);
+                gelenSayi = gelenSayi.Replace(",", "");
+                demoArr.Add(Convert.ToInt32(gelenSayi));
+                myArrays = myArrays.Substring(indis + 1);
+            } while (indis != -1);
+            demoArr.Add(Convert.ToInt32(myArrays));
+            int[] fakeArr = new int[demoArr.Count];
+            for (int i = 0; i < fakeArr.Length; i++)
+            {
+                fakeArr[i] = demoArr[i];
             }
-            _arr = demmoArr;
+            _arr = fakeArr;
         }
         private void rbInsertionSort_CheckedChanged(object sender, EventArgs e)
         {
+            lblBest.Text = "Ω(n)";
+            lblAverage.Text = "θ(n^2)";
+            lblWorst.Text = "O(n^2)";
+            lblWorst2.Text = "O(1)";
+            karsilastirmaSayisi = 0;
             _algorithmSpeed.Reset();
             InsertionSort();
         }
 
         private void rbMergeSort_CheckedChanged(object sender, EventArgs e)
         {
+            lblBest.Text = "Ω(n log(n))";
+            lblAverage.Text = "Ω(n log(n))";
+            lblWorst.Text = "Ω(n log(n))";
+            lblWorst2.Text = "O(n)";
+            karsilastirmaSayisi = 0;
             _algorithmSpeed.Reset();
             if (_arr == null)
             {
-                arr = new int[] { 64, 25, 12, 22, 11 };
+                arr = new int[] { 64, 25, 12, 22, 11, 8 };
             }
             else
             {
@@ -470,7 +546,7 @@ namespace AlgorithmForSpeeds
         }
 
 
-         void Quick_Sort(int[] arr, int left, int right)
+        void Quick_Sort(int[] arr, int left, int right)
         {
             _algorithmSpeed.Start();
             if (left < right)
@@ -480,19 +556,22 @@ namespace AlgorithmForSpeeds
                 if (pivot > 1)
                 {
                     Quick_Sort(arr, left, pivot - 1);
+                    karsilastirmaSayisi++;
                 }
                 if (pivot + 1 < right)
                 {
                     Quick_Sort(arr, pivot + 1, right);
+                    karsilastirmaSayisi++;
                 }
             }
             _arr = arr;
             Console.WriteLine(_algorithmSpeed.Elapsed.ToString());
             lblTime.Text = _algorithmSpeed.Elapsed.ToString();
+            lblKarsilastirmaSayisi.Text = karsilastirmaSayisi.ToString();
 
         }
 
-       int Partition(int[] arr, int left, int right)
+        int Partition(int[] arr, int left, int right)
         {
             int pivot = arr[left];
             while (true)
@@ -527,10 +606,15 @@ namespace AlgorithmForSpeeds
 
         private void rbQucikSort_CheckedChanged(object sender, EventArgs e)
         {
+            lblBest.Text = "Ω(n log(n))";
+            lblAverage.Text = "Ω(n log(n))";
+            lblWorst.Text = "O(n^2)";
+            lblWorst2.Text = "O(n)";
+            karsilastirmaSayisi = 0;
             _algorithmSpeed.Reset();
             if (_arr == null)
             {
-                arr = new int[] { 64, 25, 12, 22, 11 };
+                arr = new int[] { 64, 25, 12, 22, 11, 8 };
             }
             else
             {
@@ -538,6 +622,28 @@ namespace AlgorithmForSpeeds
 
             }
             Quick_Sort(arr, 0, arr.Length - 1);
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnHide_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void btnScreen_Click(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Normal)
+            {
+                this.WindowState = FormWindowState.Maximized;
+            }
+            else
+            {
+                this.WindowState = FormWindowState.Normal;
+            }
         }
     }
 }
